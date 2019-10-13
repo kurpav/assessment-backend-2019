@@ -1,0 +1,52 @@
+enum IncidentStatus {
+  Created
+  Acknowledged
+  Resolved
+}
+
+input CreateIncidentInput {
+  title: String!
+  description: String
+}
+
+input AssignIncidentInput {
+  id: ID!
+  email: String!
+}
+
+input AcknowledgeIncidentInput {
+  id: ID!
+}
+
+input ResolveIncidentInput {
+  id: ID!
+}
+
+input DeleteIncidentInput {
+  id: ID!
+}
+
+input PageableInput {
+  offset: Int
+  limit: Int
+  sort: String
+  dir: String
+  query: String
+}
+
+type Incident {
+  id: ID!
+  title: String!
+  description: String
+  assignee: String!
+  status: IncidentStatus
+  createdAt: String!
+  updatedAt: String!
+}
+
+type IncidentsResult {
+  docs: [Incident]
+  total: Int!
+  limit: Int!
+  offset: Int!
+}

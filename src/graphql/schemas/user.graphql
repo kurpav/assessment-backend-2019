@@ -1,0 +1,10 @@
+enum Role {
+  Engineer
+  Supervisor
+}
+
+type User {
+  name: String!
+  email: String!
+  role: Role!
+}

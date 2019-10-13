@@ -1,0 +1,16 @@
+# import Incident from "incident.graphql"
+# import User from "user.graphql"
+
+type Query {
+  users: [User]
+  incidents(input: PageableInput): IncidentsResult
+  incident(id: ID!): Incident
+}
+
+type Mutation {
+  createIncident(input: CreateIncidentInput!): Incident
+  assignIncident(input: AssignIncidentInput!): Incident
+  acknowledgeIncident(input: AcknowledgeIncidentInput!): Incident
+  resolveIncident(input: ResolveIncidentInput!): Incident
+  deleteIncident(input: DeleteIncidentInput!): Boolean
+}

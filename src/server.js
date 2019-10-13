@@ -1,30 +1,40 @@
-const config           = require('config')
-const express          = require('express')
-const mongoose         = require('mongoose')
-const { ApolloServer } = require('apollo-server-express')
-mongoose.Promise       = global.Promise
+const config = require('config');
+const express = require('express');
+const mongoose = require('mongoose');
+const path = require('path');
+const { ApolloServer } = require('apollo-server-express');
+const { importSchema } = require('graphql-import');
+const { makeExecutableSchema } = require('graphql-tools');
 
-const { seedUsers } = require('./db-init')
+mongoose.Promise = global.Promise;
 
-mongoose.connect(config.get('db.uri'), { useNewUrlParser: true })
+const { seedUsers } = require('./db-init');
+const resolvers = require('./graphql/resolvers');
+
+mongoose
+  .connect(config.get('db.uri'), { useNewUrlParser: true })
   .then(async () => {
-    console.log('INFO: Connected to the database')
+    console.log('INFO: Connected to the database');
 
-    await seedUsers()
+    await seedUsers();
 
-    // TODO: Initialize Apollo with the required arguments as you see fit
-    const server = new ApolloServer({})
+    const typeDefs = importSchema(path.join(__dirname, 'graphql/schemas/schema.graphql'));
+    const schema = makeExecutableSchema({ typeDefs, resolvers });
 
-    const app = express()
-    server.applyMiddleware({ app })
+    const server = new ApolloServer({ schema });
 
-    const { host, port } = config.get('server')
+    const app = express();
+    server.applyMiddleware({ app });
+
+    const { host, port } = config.get('server');
 
     app.listen({ port }, () => {
-      console.log(`Server ready at http://${ host }:${ port }${ server.graphqlPath }`)
-    })
+      console.log(
+        `Server ready at http://${host}:${port}${server.graphqlPath}`
+      );
+    });
   })
-  .catch((error) => {
-    console.error(error)
-    process.exit(-1)
-  })
+  .catch(error => {
+    console.error(error);
+    process.exit(-1);
+  });

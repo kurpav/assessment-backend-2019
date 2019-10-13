@@ -1,1 +1,6 @@
-# TODO: This file must be populated so reviewer could easily run your app
+FROM node:alpine
+WORKDIR /app
+COPY . /app
+RUN npm install
+EXPOSE 3000
+CMD ["node", "src/server.js"]

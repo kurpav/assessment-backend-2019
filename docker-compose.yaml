@@ -1,6 +1,14 @@
 version: "3"
 services:
+  backend:
+    build: .
+    ports:
+      - "3000:3000"
+    links:
+      - mongo
+    depends_on:
+      - mongo
   mongo:
     image: mongo
-    ports:
-      - "27020:27017"
+    # ports:
+    #   - "27020:27017"
