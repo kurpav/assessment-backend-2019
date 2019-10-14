@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Incident management system should work 1`] = `
+Object {
+  "data": Object {
+    "incident": Object {
+      "assignee": "test@gmail.com",
+      "title": "Test title",
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
